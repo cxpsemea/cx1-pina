@@ -4,12 +4,10 @@ import (
 	"flag"
 	"net/http"
 	"os"
-	"time"
 
 	"github.com/cxpsemea/Cx1ClientGo"
 	"github.com/sirupsen/logrus"
 	easy "github.com/t-tomalak/logrus-easy-formatter"
-	"golang.org/x/exp/slices"
 )
 
 func main() {
@@ -54,23 +52,6 @@ func main() {
 	project, app, err := cx1client.GetOrCreateProjectInApplicationByName(*ProjectName, *ApplicationName)
 	if err != nil {
 		logger.Fatalf("Could not create project %v in application %v: %s", *ProjectName, *ApplicationName, err)
-	}
-
-	logger.Infof("Project: %v", project.String())
-	logger.Infof("Application: %v", app.String())
-
-	counter := 0
-	for !slices.Contains(project.Applications, app.ApplicationID) {
-		if counter > 60 {
-			logger.Fatalf("Polling for 5 minutes and the project is still not assigned to the application - aborting.")
-		}
-		logger.Infof("Project is not yet assigned to the application, polling")
-		time.Sleep(time.Duration(5) * time.Second)
-		project, err = cx1client.GetProjectByID(project.ProjectID)
-		if err != nil {
-			logger.Fatalf("Error while polling: %s", err)
-		}
-		counter++
 	}
 
 	logger.Infof("Project %v is assigned to application %v and ready to use", project.String(), app.String())
