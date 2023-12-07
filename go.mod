@@ -3,7 +3,7 @@ module github.com/cxpsemea/cx1-pina
 go 1.20
 
 require (
-	github.com/cxpsemea/Cx1ClientGo v0.0.42
+	github.com/cxpsemea/Cx1ClientGo v0.0.45
 	github.com/sirupsen/logrus v1.9.3
 	github.com/t-tomalak/logrus-easy-formatter v0.0.0-20190827215021-c074f06c5816
 )
